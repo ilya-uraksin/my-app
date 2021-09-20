@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Pagination from './components/Pagination';
+import ShowList from './components/ShowList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+
+	const [shows, setShows] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [showsPerPage] = useState(50);
+
+
+	useEffect(() => {
+		const getShows = async () => {
+			setLoading(true);
+			const res = await axios.get('http://api.tvmaze.com/shows');
+			setShows(res.data);
+			setLoading(false);
+		}
+
+		getShows()
+	}, []);
+
+
+	const lastShowIndex = currentPage * showsPerPage;
+	const firstShowIndex = lastShowIndex - showsPerPage;
+	const currentShow = shows.slice(firstShowIndex, lastShowIndex);
+
+	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+	return (
+		<div className="container mt-5">
+			<ShowList shows={currentShow} loading={loading} />
+			<Pagination
+				showsPerPage={showsPerPage}
+				totalShows={shows.length}
+				paginate={paginate}
+			/>
+		</div>
+	);
 }
 
 export default App;
