@@ -28,6 +28,8 @@ const App = () => {
 	const currentShow = shows.slice(firstShowIndex, lastShowIndex);
 
 	const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+	const nextPage = () => setCurrentPage(prev => prev + 1);
+	const prevPage = () => setCurrentPage(prev => prev - 1);
 
 	return (
 		<div className="container mt-5">
@@ -36,6 +38,8 @@ const App = () => {
 				showsPerPage={showsPerPage}
 				totalShows={shows.length}
 				paginate={paginate}
+				nextPage={nextPage}
+				prevPage={prevPage}
 			/>
 		</div>
 	);

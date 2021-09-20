@@ -3,10 +3,12 @@ import { FC } from 'react';
 interface PaginationProps {
 	showsPerPage: number,
 	totalShows: number,
-	paginate: any
+	paginate: any,
+	nextPage: any,
+	prevPage: any
 }
 
-const Pagination: FC<PaginationProps> = ({ showsPerPage, totalShows, paginate }) => {
+const Pagination: FC<PaginationProps> = ({ showsPerPage, totalShows, paginate, nextPage, prevPage }) => {
 
 	const pageNumbers = []
 
@@ -15,8 +17,9 @@ const Pagination: FC<PaginationProps> = ({ showsPerPage, totalShows, paginate })
 	}
 
 	return (
-		<div>
+		<div className="justify-content-center">
 			<ul className="pagination justify-content-center">
+				<li className="page-item"><a className="page-link" href="!#" onClick={prevPage}>Previous</a></li>
 				{
 					pageNumbers.map(number => (
 						<li key={number} className="page-item">
@@ -26,6 +29,7 @@ const Pagination: FC<PaginationProps> = ({ showsPerPage, totalShows, paginate })
 						</li>
 					))
 				}
+				<li className="page-item"><a className="page-link" href="!#" onClick={nextPage}>Next</a></li>
 			</ul>
 		</div>
 	)
